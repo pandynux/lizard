@@ -1,5 +1,4 @@
 #pragma once
-
 #define BOARD_NAME "Waveshare ESP32-S3-Touch-LCD-5B"
 #define LCD_WIDTH  800
 #define LCD_HEIGHT 480
@@ -12,3 +11,4 @@
 #define TOUCH_SDA  18
 #define TOUCH_SCL  8
 #define TOUCH_INT  16
+#define GT911_I2C_ADDR 0x5D

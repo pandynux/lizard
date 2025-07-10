@@ -1,22 +1,28 @@
-# ESP32-S3 LVGL + LovyanGFX Demo (Multi-board Waveshare)
+# ESP32-S3 LVGL + LovyanGFX Multi-Board Demo
 
-Ce projet est une base ESP-IDF C++ pour ESP32-S3 avec écrans tactiles Waveshare supportant LovyanGFX + LVGL.  
-Il permet de sélectionner la carte cible via configuration (`main/board_config.hpp`) et supporte plusieurs modèles (7", 5", 3.5", 7" Type B).
+Ce projet ESP-IDF C++ permet de piloter les écrans tactiles Waveshare ESP32-S3 (3,5", 5", 7", 7" type B) avec **LovyanGFX** (driver graphique rapide) et **LVGL** (UI graphique moderne) sur plusieurs cartes, avec gestion du tactile **GT911** via LovyanGFX.
 
-## Structure
+## Prérequis
 
-- `main/board/board_xxx.hpp` : config matérielle par carte
-- `main/display/` : drivers écran (LovyanGFX)
-- `main/ui/` : interface graphique LVGL
-- `main/main.cpp` : point d'entrée
+- ESP-IDF v5.x installé : https://docs.espressif.com/projects/esp-idf/fr/latest/esp32/get-started/
+- Python 3.7+
+- Git
+- Carte ESP32-S3 Waveshare
 
-## Utilisation
+## Dépendances
 
-1. Sélectionner la carte dans `main/board_config.hpp` en décommentant la bonne ligne.
-2. Compiler et flasher avec ESP-IDF (`idf.py build flash monitor`).
+Le script télécharge automatiquement LovyanGFX (driver écran + tactile GT911) dans `components/`.
 
-## À compléter
+## Compilation
 
-- Configuration LovyanGFX selon le modèle d'écran
-- Initialisation complète des buffers LVGL
-- Gestion du tactile (I2C)
+. $IDF_PATH/export.sh
+idf.py set-target esp32s3
+idf.py build flash monitor
+
+## Sélection de la carte
+
+Dans `main/board_config.hpp` décommente la ligne de ta carte :
+- BOARD_7INCH
+- BOARD_7INCH_TYPEB
+- BOARD_5INCH
+- BOARD_3_5INCH

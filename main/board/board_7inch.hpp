@@ -1,5 +1,4 @@
 #pragma once
-
 #define BOARD_NAME "Waveshare ESP32-S3-Touch-LCD-7"
 #define LCD_WIDTH  1024
 #define LCD_HEIGHT 600
@@ -12,4 +11,4 @@
 #define TOUCH_SDA  18
 #define TOUCH_SCL  8
 #define TOUCH_INT  16
-// Contrôleur LCD généralement FT6336U, à vérifier selon la carte
+#define GT911_I2C_ADDR 0x5D

@@ -4,13 +4,9 @@
 
 extern "C" void app_main(void)
 {
-    // Initialisation du driver d'écran (LovyanGFX)
-    display::init();
-
-    // Initialisation LVGL
+    display_init();
     ui::init();
 
-    // Boucle principale LVGL
     while (true) {
         ui::loop();
         vTaskDelay(pdMS_TO_TICKS(10));

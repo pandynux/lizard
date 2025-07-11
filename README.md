@@ -26,3 +26,6 @@ Dans `main/board_config.hpp` décommente la ligne de ta carte :
 - BOARD_7INCH_TYPEB
 - BOARD_5INCH
 - BOARD_3_5INCH
+
+Toutes les sources C et C++ incluent `board_config.hpp` pour récupérer
+les définitions de brochage correspondant à la carte sélectionnée.

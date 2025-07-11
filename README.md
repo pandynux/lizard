@@ -29,3 +29,7 @@ Dans `main/board_config.hpp` décommente la ligne de ta carte :
 
 Toutes les sources C et C++ incluent `board_config.hpp` pour récupérer
 les définitions de brochage correspondant à la carte sélectionnée.
+
+## Licence
+
+Ce projet est distribue sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de details.

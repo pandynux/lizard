@@ -41,3 +41,10 @@ The application displays a slider and a button. Moving the slider updates the va
 
 The latest version also features a switch, a drop-down menu and a checkbox.
 The state of each widget and the selected option are displayed in real time.
+
+## Theme usage
+
+The user interface initializes LVGL's default theme in `main/ui/lvgl_ui.cpp` right after
+`lv_init()`. The theme uses blue as the primary color, red as the secondary color
+and the Montserrat 14 font. A basic style sets the background color and font on
+widgets when they are created.

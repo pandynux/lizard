@@ -46,3 +46,10 @@ de l'écran.
 La dernière version ajoute un interrupteur, un menu déroulant
 et une case à cocher. Les états de ces nouveaux widgets sont
 affichés dynamiquement.
+
+## Utilisation du thème
+
+L'interface active le thème par défaut de LVGL dans `main/ui/lvgl_ui.cpp` juste
+après `lv_init()`. Les couleurs principale et secondaire sont bleu et rouge et
+la police utilisée est Montserrat 14. Un style de base applique ces réglages de
+couleur de fond et de police aux widgets lors de leur création.

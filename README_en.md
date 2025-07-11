@@ -11,7 +11,8 @@ This ESP-IDF C++ project controls Waveshare ESP32-S3 touchscreen displays (3.5",
 
 ## Dependencies
 
-The script automatically downloads LovyanGFX (display driver + GT911 touch) into `components/`.
+LovyanGFX (display driver + GT911 touch) is bundled in
+`components/LovyanGFX`, so no additional download is required.
 
 ## Build
 

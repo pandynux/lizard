@@ -2,6 +2,8 @@
 #include "display/display_driver.hpp"
 #include "board_config.hpp"
 #include <lvgl.h>
+#include <stdio.h>
+#include <stdlib.h>
 #define LVGL_TICK_PERIOD_MS 5
 static void lvgl_touch_read(lv_indev_drv_t *drv, lv_indev_data_t *data) {
     auto lcd = get_lcd();
@@ -26,7 +28,15 @@ namespace ui {
         display_init();
         static lv_disp_draw_buf_t draw_buf;
         static lv_color_t *buf1 = (lv_color_t*)heap_caps_malloc(LCD_WIDTH * 40 * sizeof(lv_color_t), MALLOC_CAP_DMA);
+        if (!buf1) {
+            printf("Failed to allocate LVGL buffer 1\n");
+            abort();
+        }
         static lv_color_t *buf2 = (lv_color_t*)heap_caps_malloc(LCD_WIDTH * 40 * sizeof(lv_color_t), MALLOC_CAP_DMA);
+        if (!buf2) {
+            printf("Failed to allocate LVGL buffer 2\n");
+            abort();
+        }
         lv_disp_draw_buf_init(&draw_buf, buf1, buf2, LCD_WIDTH * 40);
         static lv_disp_drv_t disp_drv;
         lv_disp_drv_init(&disp_drv);

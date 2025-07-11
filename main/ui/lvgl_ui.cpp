@@ -41,9 +41,39 @@ namespace ui {
         indev_drv.read_cb = lvgl_touch_read;
         lv_indev_drv_register(&indev_drv);
         xTaskCreatePinnedToCore(lv_tick_task, "lv_tick", 2048, NULL, 1, NULL, 1);
-        lv_obj_t *label = lv_label_create(lv_scr_act());
-        lv_label_set_text_fmt(label, "Hello ESP32-S3\n%s", BOARD_NAME);
-        lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
+        static lv_obj_t *info_label;
+        static lv_obj_t *slider_label;
+        info_label = lv_label_create(lv_scr_act());
+        lv_label_set_text_fmt(info_label, "Hello ESP32-S3\n%s", BOARD_NAME);
+        lv_obj_align(info_label, LV_ALIGN_TOP_MID, 0, 20);
+
+        /* Slider with event callback */
+        lv_obj_t *slider = lv_slider_create(lv_scr_act());
+        lv_slider_set_range(slider, 0, 100);
+        lv_obj_align(slider, LV_ALIGN_CENTER, 0, 0);
+
+        slider_label = lv_label_create(lv_scr_act());
+        lv_label_set_text(slider_label, "Slider: 0");
+        lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_BOTTOM_MID, 0, 10);
+
+        auto slider_event = [](lv_event_t *e){
+            lv_obj_t *slider = lv_event_get_target(e);
+            int32_t val = lv_slider_get_value(slider);
+            lv_label_set_text_fmt(slider_label, "Slider: %d", val);
+        };
+        lv_obj_add_event_cb(slider, slider_event, LV_EVENT_VALUE_CHANGED, NULL);
+
+        /* Button to demonstrate touch events */
+        lv_obj_t *btn = lv_btn_create(lv_scr_act());
+        lv_obj_align(btn, LV_ALIGN_BOTTOM_MID, 0, -20);
+        lv_obj_t *btn_label = lv_label_create(btn);
+        lv_label_set_text(btn_label, "Press me");
+        auto btn_event = [](lv_event_t *e){
+            static uint32_t cnt = 0;
+            cnt++;
+            lv_label_set_text_fmt(info_label, "Button pressed %d", cnt);
+        };
+        lv_obj_add_event_cb(btn, btn_event, LV_EVENT_CLICKED, NULL);
     }
     void loop() {
         lv_timer_handler();

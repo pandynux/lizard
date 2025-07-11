@@ -33,3 +33,10 @@ les définitions de brochage correspondant à la carte sélectionnée.
 ## Licence
 
 Ce projet est distribue sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de details.
+
+## Exemple d'interface
+
+L'application affiche désormais un slider et un bouton tactiles.
+Le mouvement du slider met à jour la valeur indiquée sous celui-ci,
+et chaque appui sur le bouton incrémente un compteur affiché en haut
+de l'écran.

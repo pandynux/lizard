@@ -57,14 +57,20 @@ namespace ui {
         static lv_obj_t *switch_label;
         static lv_obj_t *dropdown_label;
         static lv_obj_t *checkbox_label;
+
+        /* Container to hold interactive widgets */
+        lv_obj_t *cont = lv_obj_create(lv_scr_act());
+        lv_obj_set_size(cont, LCD_WIDTH, LCD_HEIGHT);
+        lv_obj_center(cont);
+        lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_COLUMN);
+        lv_obj_set_flex_align(cont, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER);
         info_label = lv_label_create(lv_scr_act());
         lv_label_set_text_fmt(info_label, "Hello ESP32-S3\n%s", BOARD_NAME);
         lv_obj_align(info_label, LV_ALIGN_TOP_MID, 0, 20);
 
         /* Slider with event callback */
-        lv_obj_t *slider = lv_slider_create(lv_scr_act());
+        lv_obj_t *slider = lv_slider_create(cont);
         lv_slider_set_range(slider, 0, 100);
-        lv_obj_align(slider, LV_ALIGN_CENTER, 0, 0);
 
         slider_label = lv_label_create(lv_scr_act());
         lv_label_set_text(slider_label, "Slider: 0");
@@ -78,8 +84,7 @@ namespace ui {
         lv_obj_add_event_cb(slider, slider_event, LV_EVENT_VALUE_CHANGED, NULL);
 
         /* Button to demonstrate touch events */
-        lv_obj_t *btn = lv_btn_create(lv_scr_act());
-        lv_obj_align(btn, LV_ALIGN_BOTTOM_MID, 0, -20);
+        lv_obj_t *btn = lv_btn_create(cont);
         lv_obj_t *btn_label = lv_label_create(btn);
         lv_label_set_text(btn_label, "Press me");
         auto btn_event = [](lv_event_t *e){
@@ -90,8 +95,7 @@ namespace ui {
         lv_obj_add_event_cb(btn, btn_event, LV_EVENT_CLICKED, NULL);
 
         /* Switch widget */
-        lv_obj_t *sw = lv_switch_create(lv_scr_act());
-        lv_obj_align(sw, LV_ALIGN_CENTER, 80, 0);
+        lv_obj_t *sw = lv_switch_create(cont);
 
         switch_label = lv_label_create(lv_scr_act());
         lv_label_set_text(switch_label, "Switch: OFF");
@@ -105,9 +109,8 @@ namespace ui {
         lv_obj_add_event_cb(sw, sw_event, LV_EVENT_VALUE_CHANGED, NULL);
 
         /* Drop-down menu */
-        lv_obj_t *dd = lv_dropdown_create(lv_scr_act());
+        lv_obj_t *dd = lv_dropdown_create(cont);
         lv_dropdown_set_options(dd, "Item 1\nItem 2\nItem 3");
-        lv_obj_align(dd, LV_ALIGN_TOP_RIGHT, -10, 40);
 
         dropdown_label = lv_label_create(lv_scr_act());
         lv_label_set_text(dropdown_label, "Selected: Item 1");
@@ -122,9 +125,8 @@ namespace ui {
         lv_obj_add_event_cb(dd, dd_event, LV_EVENT_VALUE_CHANGED, NULL);
 
         /* Checkbox widget */
-        lv_obj_t *cb = lv_checkbox_create(lv_scr_act());
+        lv_obj_t *cb = lv_checkbox_create(cont);
         lv_checkbox_set_text(cb, "Accept");
-        lv_obj_align(cb, LV_ALIGN_CENTER, -80, 0);
 
         checkbox_label = lv_label_create(lv_scr_act());
         lv_label_set_text(checkbox_label, "Checkbox: OFF");

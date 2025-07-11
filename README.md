@@ -43,8 +43,9 @@ Le mouvement du slider met à jour la valeur indiquée sous celui-ci,
 et chaque appui sur le bouton incrémente un compteur affiché en haut
 de l'écran.
 
-La dernière version ajoute un interrupteur, un menu déroulant
-et une case à cocher. Les états de ces nouveaux widgets sont
+La dernière version ajoute un slider de luminosité, un interrupteur, un menu déroulant
+et une case à cocher. Le slider de luminosité ajuste immédiatement le rétroéclairage de l'écran.
+Les états de ces nouveaux widgets sont
 affichés dynamiquement.
 
 ## Utilisation du thème

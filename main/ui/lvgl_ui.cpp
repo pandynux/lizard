@@ -61,6 +61,7 @@ namespace ui {
         lv_style_set_text_font(&basic_style, &lv_font_montserrat_14);
         static lv_obj_t *info_label;
         static lv_obj_t *slider_label;
+        static lv_obj_t *brightness_label;
         static lv_obj_t *switch_label;
         static lv_obj_t *dropdown_label;
         static lv_obj_t *checkbox_label;
@@ -92,6 +93,26 @@ namespace ui {
             lv_label_set_text_fmt(slider_label, "Slider: %d", val);
         };
         lv_obj_add_event_cb(slider, slider_event, LV_EVENT_VALUE_CHANGED, NULL);
+
+        /* Brightness slider */
+        lv_obj_t *br_slider = lv_slider_create(cont);
+        lv_slider_set_range(br_slider, 0, 255);
+        lv_slider_set_value(br_slider, display_brightness, LV_ANIM_OFF);
+
+        brightness_label = lv_label_create(lv_scr_act());
+        lv_label_set_text_fmt(brightness_label, "Brightness: %d", display_brightness);
+        lv_obj_align_to(brightness_label, br_slider, LV_ALIGN_OUT_BOTTOM_MID, 0, 10);
+        lv_obj_add_style(brightness_label, &basic_style, LV_PART_MAIN);
+
+        auto br_event = [](lv_event_t *e){
+            lv_obj_t *slider = lv_event_get_target(e);
+            int32_t val = lv_slider_get_value(slider);
+            display_brightness = val;
+            auto lcd = get_lcd();
+            lcd->setBrightness(val);
+            lv_label_set_text_fmt(brightness_label, "Brightness: %d", val);
+        };
+        lv_obj_add_event_cb(br_slider, br_event, LV_EVENT_VALUE_CHANGED, NULL);
 
         /* Button to demonstrate touch events */
         lv_obj_t *btn = lv_btn_create(cont);

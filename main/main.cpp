@@ -4,7 +4,6 @@
 
 extern "C" void app_main(void)
 {
-    display_init();
     ui::init();
 
     while (true) {

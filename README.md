@@ -41,3 +41,7 @@ L'application affiche désormais un slider et un bouton tactiles.
 Le mouvement du slider met à jour la valeur indiquée sous celui-ci,
 et chaque appui sur le bouton incrémente un compteur affiché en haut
 de l'écran.
+
+La dernière version ajoute un interrupteur, un menu déroulant
+et une case à cocher. Les états de ces nouveaux widgets sont
+affichés dynamiquement.

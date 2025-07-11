@@ -11,7 +11,8 @@ Ce projet ESP-IDF C++ permet de piloter les écrans tactiles Waveshare ESP32-S3 
 
 ## Dépendances
 
-Le script télécharge automatiquement LovyanGFX (driver écran + tactile GT911) dans `components/`.
+LovyanGFX (driver écran + tactile GT911) est déjà inclus dans le dossier
+`components/LovyanGFX`. Aucun téléchargement supplémentaire n'est nécessaire.
 
 ## Compilation
 

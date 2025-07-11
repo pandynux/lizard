@@ -26,6 +26,9 @@ static void lv_tick_task(void *arg) {
 namespace ui {
     void init() {
         lv_init();
+        lv_theme_default_init(NULL, lv_palette_main(LV_PALETTE_BLUE),
+                              lv_palette_main(LV_PALETTE_RED), LV_THEME_DEFAULT_DARK,
+                              &lv_font_montserrat_14);
         display_init();
         static lv_disp_draw_buf_t draw_buf;
         static lv_color_t *buf1 = (lv_color_t*)heap_caps_malloc(LCD_WIDTH * 40 * sizeof(lv_color_t), MALLOC_CAP_DMA);
@@ -52,6 +55,10 @@ namespace ui {
         indev_drv.read_cb = lvgl_touch_read;
         lv_indev_drv_register(&indev_drv);
         xTaskCreatePinnedToCore(lv_tick_task, "lv_tick", 2048, NULL, 1, NULL, 1);
+        static lv_style_t basic_style;
+        lv_style_init(&basic_style);
+        lv_style_set_bg_color(&basic_style, lv_palette_lighten(LV_PALETTE_BLUE, 4));
+        lv_style_set_text_font(&basic_style, &lv_font_montserrat_14);
         static lv_obj_t *info_label;
         static lv_obj_t *slider_label;
         static lv_obj_t *switch_label;
@@ -64,9 +71,11 @@ namespace ui {
         lv_obj_center(cont);
         lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_COLUMN);
         lv_obj_set_flex_align(cont, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER);
+        lv_obj_add_style(cont, &basic_style, LV_PART_MAIN);
         info_label = lv_label_create(lv_scr_act());
         lv_label_set_text_fmt(info_label, "Hello ESP32-S3\n%s", BOARD_NAME);
         lv_obj_align(info_label, LV_ALIGN_TOP_MID, 0, 20);
+        lv_obj_add_style(info_label, &basic_style, LV_PART_MAIN);
 
         /* Slider with event callback */
         lv_obj_t *slider = lv_slider_create(cont);
@@ -75,6 +84,7 @@ namespace ui {
         slider_label = lv_label_create(lv_scr_act());
         lv_label_set_text(slider_label, "Slider: 0");
         lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_BOTTOM_MID, 0, 10);
+        lv_obj_add_style(slider_label, &basic_style, LV_PART_MAIN);
 
         auto slider_event = [](lv_event_t *e){
             lv_obj_t *slider = lv_event_get_target(e);
@@ -100,6 +110,7 @@ namespace ui {
         switch_label = lv_label_create(lv_scr_act());
         lv_label_set_text(switch_label, "Switch: OFF");
         lv_obj_align_to(switch_label, sw, LV_ALIGN_OUT_BOTTOM_MID, 0, 10);
+        lv_obj_add_style(switch_label, &basic_style, LV_PART_MAIN);
 
         auto sw_event = [](lv_event_t *e){
             lv_obj_t *sw = lv_event_get_target(e);
@@ -115,6 +126,7 @@ namespace ui {
         dropdown_label = lv_label_create(lv_scr_act());
         lv_label_set_text(dropdown_label, "Selected: Item 1");
         lv_obj_align_to(dropdown_label, dd, LV_ALIGN_OUT_BOTTOM_RIGHT, 0, 10);
+        lv_obj_add_style(dropdown_label, &basic_style, LV_PART_MAIN);
 
         auto dd_event = [](lv_event_t *e){
             lv_obj_t *dd = lv_event_get_target(e);
@@ -131,6 +143,7 @@ namespace ui {
         checkbox_label = lv_label_create(lv_scr_act());
         lv_label_set_text(checkbox_label, "Checkbox: OFF");
         lv_obj_align_to(checkbox_label, cb, LV_ALIGN_OUT_BOTTOM_MID, 0, 10);
+        lv_obj_add_style(checkbox_label, &basic_style, LV_PART_MAIN);
 
         auto cb_event = [](lv_event_t *e){
             lv_obj_t *cb = lv_event_get_target(e);

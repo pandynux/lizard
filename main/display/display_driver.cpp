@@ -46,10 +46,11 @@ public:
     }
 };
 static LGFX lcd;
+uint8_t display_brightness = 192;
 lgfx::LGFX_Device* get_lcd() { return &lcd; }
 void display_init() {
     lcd.init();
-    lcd.setBrightness(192);
+    lcd.setBrightness(display_brightness);
     lcd.fillScreen(TFT_BLACK);
 }
 void display_lvgl_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p) {

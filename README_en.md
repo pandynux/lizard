@@ -39,7 +39,8 @@ This project is released under the MIT License. See [LICENSE](LICENSE) for detai
 
 The application displays a slider and a button. Moving the slider updates the value shown underneath, and each button press increments a counter displayed at the top of the screen.
 
-The latest version also features a switch, a drop-down menu and a checkbox.
+The latest version also features a brightness slider, a switch, a drop-down menu and a checkbox.
+Moving the brightness slider immediately updates the screen backlight level.
 The state of each widget and the selected option are displayed in real time.
 
 ## Theme usage

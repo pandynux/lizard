@@ -1,0 +1,20 @@
+menu "Board Selection"
+
+choice
+    prompt "Target board"
+    default BOARD_7INCH
+
+config BOARD_7INCH
+    bool "Waveshare ESP32-S3 7 inch"
+
+config BOARD_7INCH_TYPEB
+    bool "Waveshare ESP32-S3 7 inch Type B"
+
+config BOARD_5INCH
+    bool "Waveshare ESP32-S3 5 inch"
+
+config BOARD_3_5INCH
+    bool "Waveshare ESP32-S3 3.5 inch"
+endchoice
+
+endmenu

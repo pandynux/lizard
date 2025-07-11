@@ -22,11 +22,11 @@ idf.py build flash monitor
 
 ## Selecting the board
 
-In `main/board_config.hpp` uncomment your board line:
-- BOARD_7INCH
-- BOARD_7INCH_TYPEB
-- BOARD_5INCH
-- BOARD_3_5INCH
+Run `idf.py menuconfig` and choose **Board Selection** to pick your board:
+- Waveshare ESP32-S3 7 inch
+- Waveshare ESP32-S3 7 inch Type B
+- Waveshare ESP32-S3 5 inch
+- Waveshare ESP32-S3 3.5 inch
 
 All C and C++ sources include `board_config.hpp` to obtain the pin definitions for the selected board.
 

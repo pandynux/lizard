@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #define LVGL_TICK_PERIOD_MS 5
 static void lvgl_touch_read(lv_indev_drv_t *drv, lv_indev_data_t *data) {
+    LV_UNUSED(drv);
     auto lcd = get_lcd();
     uint16_t x, y;
     if (lcd->getTouch(&x, &y)) {

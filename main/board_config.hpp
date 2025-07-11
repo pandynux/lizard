@@ -1,18 +1,15 @@
 #pragma once
-// Décommente la ligne correspondant à ta carte
-#define BOARD_7INCH
-// #define BOARD_7INCH_TYPEB
-// #define BOARD_5INCH
-// #define BOARD_3_5INCH
+// La sélection de la carte se fait dans `idf.py menuconfig` via les options
+// CONFIG_BOARD_*. Aucune modification manuelle de ce fichier n'est nécessaire.
 
-#if defined(BOARD_7INCH)
+#if defined(CONFIG_BOARD_7INCH)
 #include "board/board_7inch.hpp"
-#elif defined(BOARD_7INCH_TYPEB)
+#elif defined(CONFIG_BOARD_7INCH_TYPEB)
 #include "board/board_7inch_typeb.hpp"
-#elif defined(BOARD_5INCH)
+#elif defined(CONFIG_BOARD_5INCH)
 #include "board/board_5inch.hpp"
-#elif defined(BOARD_3_5INCH)
+#elif defined(CONFIG_BOARD_3_5INCH)
 #include "board/board_3_5inch.hpp"
 #else
-#error "Aucune carte définie ! Définissez BOARD_xxx dans board_config.hpp"
+#error "Aucune carte sélectionnée ! Configurez CONFIG_BOARD_xxx dans menuconfig"
 #endif

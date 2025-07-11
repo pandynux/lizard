@@ -29,6 +29,7 @@ Run `idf.py menuconfig` and choose **Board Selection** to pick your board:
 - Waveshare ESP32-S3 3.5 inch
 
 All C and C++ sources include `board_config.hpp` to obtain the pin definitions for the selected board.
+If no board is chosen in `idf.py menuconfig`, compilation will stop with an error. A default board setting is provided in `sdkconfig.defaults` for the 7 inch board.
 
 ## License
 

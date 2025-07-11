@@ -30,6 +30,7 @@ Lance `idf.py menuconfig` puis choisis **Board Selection** pour sélectionner ta
 
 Toutes les sources C et C++ incluent `board_config.hpp` pour récupérer les
 définitions de brochage correspondant à la carte sélectionnée.
+La compilation s'arrêtera si aucune carte n'est sélectionnée dans `idf.py menuconfig`. Un réglage par défaut est prévu dans `sdkconfig.defaults` pour la carte 7 pouces.
 
 ## Licence
 

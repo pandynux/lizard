@@ -23,10 +23,12 @@ idf.py build flash monitor
 ## Sélection de la carte
 
 Lance `idf.py menuconfig` puis choisis **Board Selection** pour sélectionner ta carte :
-- Waveshare ESP32-S3 7 inch
-- Waveshare ESP32-S3 7 inch Type B
-- Waveshare ESP32-S3 5 inch
-- Waveshare ESP32-S3 3.5 inch
+- Waveshare ESP32-S3-Touch-LCD-7	  v1.2	800/480
+- Waveshare ESP32-S3-Touch-LCD-7	  B		  1024/600
+- Waveshare ESP32-S3-Touch-LCD-5	  B		  1204/600
+- Waveshare ESP32-S3-Touch-LCD-5			    800/400
+- Waveshare ESP32-S3-Touch-LCD-3.5 			  320x480
+- Waveshare ESP32-S3-Touch-LCD-3.5	B		  320x480
 
 Toutes les sources C et C++ incluent `board_config.hpp` pour récupérer les
 définitions de brochage correspondant à la carte sélectionnée.

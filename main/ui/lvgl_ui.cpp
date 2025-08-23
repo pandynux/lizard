@@ -62,12 +62,13 @@ namespace ui {
         lv_style_init(&basic_style);
         lv_style_set_bg_color(&basic_style, lv_palette_lighten(LV_PALETTE_BLUE, 4));
         lv_style_set_text_font(&basic_style, &lv_font_montserrat_14);
-        static lv_obj_t *info_label;
-        static lv_obj_t *slider_label;
-        static lv_obj_t *brightness_label;
-        static lv_obj_t *switch_label;
-        static lv_obj_t *dropdown_label;
-        static lv_obj_t *checkbox_label;
+
+        lv_obj_t *info_label;
+        lv_obj_t *slider_label;
+        lv_obj_t *brightness_label;
+        lv_obj_t *switch_label;
+        lv_obj_t *dropdown_label;
+        lv_obj_t *checkbox_label;
 
         /* Container to hold interactive widgets */
         lv_obj_t *cont = lv_obj_create(lv_scr_act());
@@ -92,10 +93,11 @@ namespace ui {
 
         auto slider_event = [](lv_event_t *e){
             lv_obj_t *slider = static_cast<lv_obj_t*>(lv_event_get_target(e));
+            lv_obj_t *label = static_cast<lv_obj_t*>(lv_event_get_user_data(e));
             int32_t val = lv_slider_get_value(slider);
-            lv_label_set_text_fmt(slider_label, "Slider: %d", (int)val);
+            lv_label_set_text_fmt(label, "Slider: %d", (int)val);
         };
-        lv_obj_add_event_cb(slider, slider_event, LV_EVENT_VALUE_CHANGED, NULL);
+        lv_obj_add_event_cb(slider, slider_event, LV_EVENT_VALUE_CHANGED, slider_label);
 
         /* Brightness slider */
         lv_obj_t *br_slider = lv_slider_create(cont);
@@ -109,24 +111,30 @@ namespace ui {
 
         auto br_event = [](lv_event_t *e){
             lv_obj_t *slider = static_cast<lv_obj_t*>(lv_event_get_target(e));
+            lv_obj_t *label = static_cast<lv_obj_t*>(lv_event_get_user_data(e));
             int32_t val = lv_slider_get_value(slider);
             display_brightness = val;
             auto lcd = get_lcd();
             lcd->setBrightness(val);
-            lv_label_set_text_fmt(brightness_label, "Brightness: %d", (int)val);
+            lv_label_set_text_fmt(label, "Brightness: %d", (int)val);
         };
-        lv_obj_add_event_cb(br_slider, br_event, LV_EVENT_VALUE_CHANGED, NULL);
+        lv_obj_add_event_cb(br_slider, br_event, LV_EVENT_VALUE_CHANGED, brightness_label);
 
         /* Button to demonstrate touch events */
         lv_obj_t *btn = lv_btn_create(cont);
         lv_obj_t *btn_label = lv_label_create(btn);
         lv_label_set_text(btn_label, "Press me");
-        auto btn_event = [](lv_event_t *e){
-            static uint32_t cnt = 0;
-            cnt++;
-            lv_label_set_text_fmt(info_label, "Button pressed %d", (int)cnt);
+        struct BtnData {
+            lv_obj_t *label;
+            uint32_t cnt;
         };
-        lv_obj_add_event_cb(btn, btn_event, LV_EVENT_CLICKED, NULL);
+        auto btn_event = [](lv_event_t *e){
+            BtnData *d = static_cast<BtnData*>(lv_event_get_user_data(e));
+            d->cnt++;
+            lv_label_set_text_fmt(d->label, "Button pressed %d", (int)d->cnt);
+        };
+        auto btn_data = new BtnData{info_label, 0};
+        lv_obj_add_event_cb(btn, btn_event, LV_EVENT_CLICKED, btn_data);
 
         /* Switch widget */
         lv_obj_t *sw = lv_switch_create(cont);
@@ -138,10 +146,11 @@ namespace ui {
 
         auto sw_event = [](lv_event_t *e){
             lv_obj_t *sw = static_cast<lv_obj_t*>(lv_event_get_target(e));
+            lv_obj_t *label = static_cast<lv_obj_t*>(lv_event_get_user_data(e));
             bool state = lv_obj_has_state(sw, LV_STATE_CHECKED);
-            lv_label_set_text_fmt(switch_label, "Switch: %s", state ? "ON" : "OFF");
+            lv_label_set_text_fmt(label, "Switch: %s", state ? "ON" : "OFF");
         };
-        lv_obj_add_event_cb(sw, sw_event, LV_EVENT_VALUE_CHANGED, NULL);
+        lv_obj_add_event_cb(sw, sw_event, LV_EVENT_VALUE_CHANGED, switch_label);
 
         /* Drop-down menu */
         lv_obj_t *dd = lv_dropdown_create(cont);
@@ -154,11 +163,12 @@ namespace ui {
 
         auto dd_event = [](lv_event_t *e){
             lv_obj_t *dd = static_cast<lv_obj_t*>(lv_event_get_target(e));
+            lv_obj_t *label = static_cast<lv_obj_t*>(lv_event_get_user_data(e));
             char buf[16];
             lv_dropdown_get_selected_str(dd, buf, sizeof(buf));
-            lv_label_set_text_fmt(dropdown_label, "Selected: %s", buf);
+            lv_label_set_text_fmt(label, "Selected: %s", buf);
         };
-        lv_obj_add_event_cb(dd, dd_event, LV_EVENT_VALUE_CHANGED, NULL);
+        lv_obj_add_event_cb(dd, dd_event, LV_EVENT_VALUE_CHANGED, dropdown_label);
 
         /* Checkbox widget */
         lv_obj_t *cb = lv_checkbox_create(cont);
@@ -171,10 +181,11 @@ namespace ui {
 
         auto cb_event = [](lv_event_t *e){
             lv_obj_t *cb = static_cast<lv_obj_t*>(lv_event_get_target(e));
+            lv_obj_t *label = static_cast<lv_obj_t*>(lv_event_get_user_data(e));
             bool state = lv_obj_has_state(cb, LV_STATE_CHECKED);
-            lv_label_set_text_fmt(checkbox_label, "Checkbox: %s", state ? "ON" : "OFF");
+            lv_label_set_text_fmt(label, "Checkbox: %s", state ? "ON" : "OFF");
         };
-        lv_obj_add_event_cb(cb, cb_event, LV_EVENT_VALUE_CHANGED, NULL);
+        lv_obj_add_event_cb(cb, cb_event, LV_EVENT_VALUE_CHANGED, checkbox_label);
         return ESP_OK;
     }
     void loop() {

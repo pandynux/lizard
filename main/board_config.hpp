@@ -1,6 +1,7 @@
 #pragma once
-// La sélection de la carte se fait dans `idf.py menuconfig` via les options
-// CONFIG_BOARD_*. Aucune modification manuelle de ce fichier n'est nécessaire.
+// La sélection de la carte se fait via `idf.py menuconfig` ou en modifiant
+// `sdkconfig.defaults` pour définir `CONFIG_BOARD_*`.
+// Aucune modification manuelle de ce fichier n'est nécessaire.
 
 #if defined(CONFIG_BOARD_7INCH)
 #include "board/board_7inch.hpp"

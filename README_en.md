@@ -22,7 +22,12 @@ idf.py build flash monitor
 
 ## Selecting the board
 
-Run `idf.py menuconfig` and choose **Board Selection** to pick your board:
+The board can be specified in two ways:
+
+- run `idf.py menuconfig` and choose **Board Selection**;
+- or edit `sdkconfig.defaults` to set `CONFIG_BOARD_xxx=y`.
+
+Available boards:
 - Waveshare ESP32-S3-Touch-LCD-7	v1.2	800/480
 - Waveshare ESP32-S3-Touch-LCD-7	B		1024/600
 - Waveshare ESP32-S3-Touch-LCD-5	B		1204/600
@@ -31,7 +36,7 @@ Run `idf.py menuconfig` and choose **Board Selection** to pick your board:
 - Waveshare ESP32-S3-Touch-LCD-3.5	B		320x480
 
 All C and C++ sources include `board_config.hpp` to obtain the pin definitions for the selected board.
-If no board is chosen in `idf.py menuconfig`, compilation will stop with an error. A default board setting is provided in `sdkconfig.defaults` for the 7 inch board.
+Compilation stops if no board is selected. A default board setting is provided in `sdkconfig.defaults` for the 7 inch board.
 
 ## License
 

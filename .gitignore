@@ -5,4 +5,8 @@
 /components/lvgl/build/
 
 # User configuration files
+sdkconfig
 sdkconfig.old
+
+# Log files
+*.log

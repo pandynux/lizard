@@ -1,0 +1,1 @@
+#define CONFIG_BOARD_7INCH

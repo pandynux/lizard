@@ -1,0 +1,2 @@
+Directory '/app/build' doesn't seem to be a CMake build directory. Refusing to automatically delete files in this directory. Delete the directory manually to 'clean' it.
+Executing action: fullclean

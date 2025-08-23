@@ -1,14 +1,15 @@
-set (LGFX_ROOT ${CMAKE_CURRENT_LIST_DIR})
-
-# Espressif ESP* based boards
-if (DEFINED ESP_PLATFORM)
-include(${LGFX_ROOT}/boards.cmake/esp-idf.cmake)
-
-# Raspberry Pi RP* based boards
-elseif ((DEFINED PICO_PLATFORM) OR (DEFINED PICO_BOARD))
-include(${LGFX_ROOT}/boards.cmake/pico-sdk.cmake)
-
-# Cannot determine boards type
+# CMakeLists for ESP-IDF.
+set(COMPONENT_ADD_INCLUDEDIRS src)
+file(GLOB SRCS src/lgfx/Fonts/efont/*.c src/lgfx/Fonts/IPA/*.c src/lgfx/utility/*.c src/lgfx/v0/*.cpp src/lgfx/v0/panel/*.cpp src/lgfx/v0/platforms/*.cpp src/lgfx/v0/touch/*.cpp src/lgfx/v1/*.cpp src/lgfx/v1/misc/*.cpp src/lgfx/v1/panel/*.cpp src/lgfx/v1/platforms/arduino_default/*.cpp src/lgfx/v1/platforms/esp32/*.cpp src/lgfx/v1/platforms/esp32c3/*.cpp src/lgfx/v1/platforms/esp32s2/*.cpp src/lgfx/v1/platforms/esp32s3/*.cpp src/lgfx/v1/touch/*.cpp )
+set(COMPONENT_SRCS ${SRCS})
+if (IDF_VERSION_MAJOR GREATER_EQUAL 5)
+    set(COMPONENT_REQUIRES nvs_flash efuse esp_lcd driver esp_timer)
+elseif ((IDF_VERSION_MAJOR EQUAL 4) AND (IDF_VERSION_MINOR GREATER 3) OR IDF_VERSION_MAJOR GREATER 4)
+    set(COMPONENT_REQUIRES nvs_flash efuse esp_lcd)
 else()
-message("Error: No platform specified")
+    set(COMPONENT_REQUIRES nvs_flash efuse)
 endif()
+### If you use arduino-esp32 components, please activate next comment line.
+# list(APPEND COMPONENT_REQUIRES arduino-esp32)
+message(STATUS "LovyanGFX use components = ${COMPONENT_REQUIRES}")
+register_component()

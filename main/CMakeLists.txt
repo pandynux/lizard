@@ -1,14 +1,2 @@
-idf_component_register(
-    SRCS
-        "main.cpp"
-        "display/display_driver.cpp"
-        "ui/lvgl_ui.cpp"
-    INCLUDE_DIRS
-        "."
-        "display"
-        "ui"
-        "board"
-    REQUIRES
-        lvgl
-        LovyanGFX
-)
+idf_component_register(SRCS "main.cpp" "display/display_driver.cpp" "ui/lvgl_ui.cpp"
+                    INCLUDE_DIRS "." "display" "ui" "board")

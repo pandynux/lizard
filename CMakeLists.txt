@@ -1,3 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+list(APPEND SDKCONFIG_DEFAULTS "sdkconfig.defaults")
+set(CONFIG_BOARD_7INCH y)
 project(lizard)

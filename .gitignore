@@ -1,0 +1,8 @@
+# ESP-IDF build output
+/build/
+
+# LVGL component build files
+/components/lvgl/build/
+
+# User configuration files
+sdkconfig.old

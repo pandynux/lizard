@@ -4,6 +4,7 @@
 #include <lvgl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <esp_heap_caps.h>
 #define LVGL_TICK_PERIOD_MS 5
 static void lvgl_touch_read(lv_indev_drv_t *drv, lv_indev_data_t *data) {
     LV_UNUSED(drv);
@@ -24,7 +25,7 @@ static void lv_tick_task(void *arg) {
     }
 }
 namespace ui {
-    void init() {
+    esp_err_t init() {
         lv_init();
         lv_theme_default_init(NULL, lv_palette_main(LV_PALETTE_BLUE),
                               lv_palette_main(LV_PALETTE_RED), LV_THEME_DEFAULT_DARK,
@@ -34,12 +35,14 @@ namespace ui {
         static lv_color_t *buf1 = (lv_color_t*)heap_caps_malloc(LCD_WIDTH * 40 * sizeof(lv_color_t), MALLOC_CAP_DMA);
         if (!buf1) {
             printf("Failed to allocate LVGL buffer 1\n");
-            abort();
+            return ESP_ERR_NO_MEM;
         }
         static lv_color_t *buf2 = (lv_color_t*)heap_caps_malloc(LCD_WIDTH * 40 * sizeof(lv_color_t), MALLOC_CAP_DMA);
         if (!buf2) {
             printf("Failed to allocate LVGL buffer 2\n");
-            abort();
+            heap_caps_free(buf1);
+            buf1 = NULL;
+            return ESP_ERR_NO_MEM;
         }
         lv_disp_draw_buf_init(&draw_buf, buf1, buf2, LCD_WIDTH * 40);
         static lv_disp_drv_t disp_drv;
@@ -172,6 +175,7 @@ namespace ui {
             lv_label_set_text_fmt(checkbox_label, "Checkbox: %s", state ? "ON" : "OFF");
         };
         lv_obj_add_event_cb(cb, cb_event, LV_EVENT_VALUE_CHANGED, NULL);
+        return ESP_OK;
     }
     void loop() {
         lv_timer_handler();

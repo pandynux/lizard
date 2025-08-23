@@ -1,5 +1,6 @@
 #pragma once
+#include <esp_err.h>
 namespace ui {
-    void init();
+    esp_err_t init();
     void loop();
 }

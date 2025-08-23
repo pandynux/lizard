@@ -1,5 +1,8 @@
+#include "board_fix.h"
+#include <lvgl.h>
 #include "display_driver.hpp"
 #include "board_config.hpp"
+#include <lgfx/v1/platforms/esp32/Bus_Parallel16.hpp>
 
 class LGFX : public lgfx::LGFX_Device {
     lgfx::Panel_ST7796 _panel_instance;
@@ -28,7 +31,13 @@ public:
             cfg.offset_y = 0;
             _panel_instance.config(cfg);
         }
-        { _panel_instance.setBacklightPin(LCD_BL, true); }
+        { auto blk = _panel_instance.config_light();
+          blk.pin_bl = LCD_BL;
+          blk.invert = false;
+          blk.freq   = 44100;
+          blk.pwm_channel = 7;
+          _panel_instance.config_light(blk);
+        }
         { auto cfg = _touch_instance.config();
             cfg.x_min = 0; cfg.x_max = LCD_WIDTH - 1;
             cfg.y_min = 0; cfg.y_max = LCD_HEIGHT - 1;
@@ -38,7 +47,7 @@ public:
             cfg.pin_sda = TOUCH_SDA;
             cfg.pin_scl = TOUCH_SCL;
             cfg.freq = 400000;
-            cfg.addr = GT911_I2C_ADDR;
+            cfg.i2c_addr = GT911_I2C_ADDR;
             _touch_instance.config(cfg);
             _panel_instance.setTouch(&_touch_instance);
         }

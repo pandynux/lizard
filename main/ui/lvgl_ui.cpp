@@ -1,3 +1,4 @@
+#include "board_fix.h"
 #include "lvgl_ui.hpp"
 #include "display/display_driver.hpp"
 #include "board_config.hpp"
@@ -88,9 +89,9 @@ namespace ui {
         lv_obj_add_style(slider_label, &basic_style, LV_PART_MAIN);
 
         auto slider_event = [](lv_event_t *e){
-            lv_obj_t *slider = lv_event_get_target(e);
+            lv_obj_t *slider = static_cast<lv_obj_t*>(lv_event_get_target(e));
             int32_t val = lv_slider_get_value(slider);
-            lv_label_set_text_fmt(slider_label, "Slider: %d", val);
+            lv_label_set_text_fmt(slider_label, "Slider: %d", (int)val);
         };
         lv_obj_add_event_cb(slider, slider_event, LV_EVENT_VALUE_CHANGED, NULL);
 
@@ -100,17 +101,17 @@ namespace ui {
         lv_slider_set_value(br_slider, display_brightness, LV_ANIM_OFF);
 
         brightness_label = lv_label_create(lv_scr_act());
-        lv_label_set_text_fmt(brightness_label, "Brightness: %d", display_brightness);
+        lv_label_set_text_fmt(brightness_label, "Brightness: %d", (int)display_brightness);
         lv_obj_align_to(brightness_label, br_slider, LV_ALIGN_OUT_BOTTOM_MID, 0, 10);
         lv_obj_add_style(brightness_label, &basic_style, LV_PART_MAIN);
 
         auto br_event = [](lv_event_t *e){
-            lv_obj_t *slider = lv_event_get_target(e);
+            lv_obj_t *slider = static_cast<lv_obj_t*>(lv_event_get_target(e));
             int32_t val = lv_slider_get_value(slider);
             display_brightness = val;
             auto lcd = get_lcd();
             lcd->setBrightness(val);
-            lv_label_set_text_fmt(brightness_label, "Brightness: %d", val);
+            lv_label_set_text_fmt(brightness_label, "Brightness: %d", (int)val);
         };
         lv_obj_add_event_cb(br_slider, br_event, LV_EVENT_VALUE_CHANGED, NULL);
 
@@ -121,7 +122,7 @@ namespace ui {
         auto btn_event = [](lv_event_t *e){
             static uint32_t cnt = 0;
             cnt++;
-            lv_label_set_text_fmt(info_label, "Button pressed %d", cnt);
+            lv_label_set_text_fmt(info_label, "Button pressed %d", (int)cnt);
         };
         lv_obj_add_event_cb(btn, btn_event, LV_EVENT_CLICKED, NULL);
 
@@ -134,7 +135,7 @@ namespace ui {
         lv_obj_add_style(switch_label, &basic_style, LV_PART_MAIN);
 
         auto sw_event = [](lv_event_t *e){
-            lv_obj_t *sw = lv_event_get_target(e);
+            lv_obj_t *sw = static_cast<lv_obj_t*>(lv_event_get_target(e));
             bool state = lv_obj_has_state(sw, LV_STATE_CHECKED);
             lv_label_set_text_fmt(switch_label, "Switch: %s", state ? "ON" : "OFF");
         };
@@ -150,7 +151,7 @@ namespace ui {
         lv_obj_add_style(dropdown_label, &basic_style, LV_PART_MAIN);
 
         auto dd_event = [](lv_event_t *e){
-            lv_obj_t *dd = lv_event_get_target(e);
+            lv_obj_t *dd = static_cast<lv_obj_t*>(lv_event_get_target(e));
             char buf[16];
             lv_dropdown_get_selected_str(dd, buf, sizeof(buf));
             lv_label_set_text_fmt(dropdown_label, "Selected: %s", buf);
@@ -167,7 +168,7 @@ namespace ui {
         lv_obj_add_style(checkbox_label, &basic_style, LV_PART_MAIN);
 
         auto cb_event = [](lv_event_t *e){
-            lv_obj_t *cb = lv_event_get_target(e);
+            lv_obj_t *cb = static_cast<lv_obj_t*>(lv_event_get_target(e));
             bool state = lv_obj_has_state(cb, LV_STATE_CHECKED);
             lv_label_set_text_fmt(checkbox_label, "Checkbox: %s", state ? "ON" : "OFF");
         };

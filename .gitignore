@@ -4,6 +4,9 @@
 # LVGL component build files
 /components/lvgl/build/
 
+*LovyanGFX component build files
+/components/build/LovyanGFX
+
 # User configuration files
 sdkconfig
 sdkconfig.old

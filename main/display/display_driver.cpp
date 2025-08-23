@@ -1,4 +1,3 @@
-#include "board_fix.h"
 #include <lvgl.h>
 #include "display_driver.hpp"
 #include "board_config.hpp"

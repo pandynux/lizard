@@ -22,7 +22,12 @@ idf.py build flash monitor
 
 ## Sélection de la carte
 
-Lance `idf.py menuconfig` puis choisis **Board Selection** pour sélectionner ta carte :
+La carte peut être choisie de deux façons :
+
+- en exécutant `idf.py menuconfig` puis en sélectionnant **Board Selection** ;
+- ou en éditant `sdkconfig.defaults` pour y définir `CONFIG_BOARD_xxx=y`.
+
+Liste des cartes disponibles :
 - Waveshare ESP32-S3-Touch-LCD-7	  v1.2	800/480
 - Waveshare ESP32-S3-Touch-LCD-7	  B		  1024/600
 - Waveshare ESP32-S3-Touch-LCD-5	  B		  1204/600
@@ -32,7 +37,7 @@ Lance `idf.py menuconfig` puis choisis **Board Selection** pour sélectionner ta
 
 Toutes les sources C et C++ incluent `board_config.hpp` pour récupérer les
 définitions de brochage correspondant à la carte sélectionnée.
-La compilation s'arrêtera si aucune carte n'est sélectionnée dans `idf.py menuconfig`. Un réglage par défaut est prévu dans `sdkconfig.defaults` pour la carte 7 pouces.
+La compilation s'arrêtera si aucune carte n'est sélectionnée. Un réglage par défaut est prévu dans `sdkconfig.defaults` pour la carte 7 pouces.
 
 ## Licence
 

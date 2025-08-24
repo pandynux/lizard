@@ -2,6 +2,11 @@
 #include "display_driver.hpp"
 #include "board_config.hpp"
 #include <lgfx/v1/platforms/esp32/Bus_Parallel16.hpp>
+using namespace board_3_5inch;
+
+
+
+
 
 class LGFX : public lgfx::LGFX_Device {
     lgfx::Panel_ST7796 _panel_instance;

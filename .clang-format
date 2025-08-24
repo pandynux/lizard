@@ -1,0 +1,21 @@
+# Fichier: .clang-format
+# Placer ce fichier à la racine de votre projet.
+# Ce fichier définit le style de code basé sur les conventions de Google.
+
+Language: Cpp
+BasedOnStyle: Google
+
+# Customizations
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: None
+AllowShortLoopsOnASingleLine: false
+ColumnLimit: 100
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+AccessModifierOffset: -4
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+BreakBeforeBraces: Allman
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+PointerAlignment: Left

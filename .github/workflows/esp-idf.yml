@@ -9,7 +9,6 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     env:
-      # On définit la version d'ESP-IDF ici pour la stabilité et la facilité de mise à jour
       ESP_IDF_VERSION: 'release/v5.2'
 
     steps:
@@ -53,14 +52,13 @@ jobs:
           echo "Verifying ESP-IDF version..."
           idf.py --version
 
+      - name: Install project dependencies
+        run: |
+          idf.py component install
+
       - name: Build project
         run: |
           idf.py build
-
-      - name: Run tests (if any)
-        run: |
-          # Cette étape ne s'exécutera que si vous avez des tests définis dans votre projet.
-          # idf.py test
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

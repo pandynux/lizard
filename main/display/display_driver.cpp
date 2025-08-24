@@ -97,3 +97,4 @@ void display_lvgl_flush(lv_display_t *disp, const lv_area_t *area, uint8_t *px_m
     lcd.endWrite();
     lv_display_flush_ready(disp);
 }
+

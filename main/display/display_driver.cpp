@@ -62,9 +62,15 @@ static LGFX lcd;
 uint8_t display_brightness = 192;
 lgfx::LGFX_Device* get_lcd() { return &lcd; }
 void display_init() {
-    lcd.init();
+    if (!lcd.init()) {
+        // Utilise le système de log de LVGL pour signaler une erreur critique
+        LV_LOG_ERROR("LGFX initialization failed!");
+        // Dans une application réelle, il faudrait gérer cette erreur proprement
+        // (ex: redémarrer, entrer dans un mode de sécurité).
+        while(1) { vTaskDelay(1); } // Bloque l'exécution en cas d'échec
+    }
     lcd.setBrightness(display_brightness);
-    lcd.fillScreen(TFT_BLACK);
+    lcd.fillScreen(TFT_BLACK);;
 }
 void display_lvgl_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p) {
     int32_t w = area->x2 - area->x1 + 1;

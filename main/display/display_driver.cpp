@@ -44,12 +44,12 @@ public:
             _panel_instance.config(cfg);
         }
         {
-            auto blk = _panel_instance.config_t();
+             auto blk = _panel_instance.config_light();
             blk.pin_bl = LCD_BL;
             blk.invert = false;
             blk.freq = 44100;
             blk.pwm_channel = 7;
-            _panel_instance.config_t(blk);
+            _panel_instance.config_light(blk);
         }
         {
             auto cfg = _touch_instance.config();
@@ -87,12 +87,13 @@ void display_init() {
     lcd.fillScreen(TFT_BLACK);
 }
 
-void display_lvgl_flush(lv_fs_drv_t *disp, const lv_area_t *area, lv_color_t *color_p) {
+
+void display_lvgl_flush(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map) {
     int32_t w = area->x2 - area->x1 + 1;
     int32_t h = area->y2 - area->y1 + 1;
     lcd.startWrite();
     lcd.setAddrWindow(area->x1, area->y1, w, h);
-    lcd.pushColors((lgfx::rgb565_t *)&color_p->full, w * h, true);
+    lcd.pushColors((lgfx::rgb565_t *)px_map, w * h, true);
     lcd.endWrite();
-    lv_disp_flush_ready(disp);
+    lv_display_flush_ready(disp);
 }

@@ -1,0 +1,69 @@
+name: ESP-IDF Build and Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    env:
+      # On définit la version d'ESP-IDF ici pour la stabilité et la facilité de mise à jour
+      ESP_IDF_VERSION: 'release/v5.2'
+
+    steps:
+      - name: Checkout project repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install system prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git wget flex bison gperf python3-pip cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
+
+      - name: Cache ESP-IDF and tools
+        id: cache-esp-idf
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/esp/esp-idf
+            ~/.espressif
+          key: esp-idf-tools-${{ env.ESP_IDF_VERSION }}-${{ runner.os }}
+
+      - name: Clone ESP-IDF repository
+        if: steps.cache-esp-idf.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/esp
+          git clone --recursive --branch ${{ env.ESP_IDF_VERSION }} --depth 1 https://github.com/espressif/esp-idf.git ~/esp/esp-idf
+
+      - name: Install ESP-IDF tools
+        if: steps.cache-esp-idf.outputs.cache-hit != 'true'
+        run: |
+          ~/esp/esp-idf/install.sh
+
+      - name: Set up ESP-IDF environment variables
+        run: |
+          echo "IDF_PATH=$HOME/esp/esp-idf" >> $GITHUB_ENV
+          source "$HOME/esp/esp-idf/export.sh"
+          echo "Verifying ESP-IDF version..."
+          idf.py --version
+
+      - name: Build project
+        run: |
+          idf.py build
+
+      - name: Run tests (if any)
+        run: |
+          # Cette étape ne s'exécutera que si vous avez des tests définis dans votre projet.
+          # idf.py test
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware-${{ github.sha }}
+          path: build/

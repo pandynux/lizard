@@ -7,8 +7,8 @@
 #include <stdlib.h>
 #define LVGL_TICK_PERIOD_MS 5
 static const char *TAG = "ui";
-static void lvgl_touch_read(lv_indev_drv_t *drv, lv_indev_data_t *data) {
-  LV_UNUSED(drv);
+static void lvgl_touch_read(lv_indev_t *indev, lv_indev_data_t *data) {
+  LV_UNUSED(indev);
   auto lcd = get_lcd();
   uint16_t x, y;
   if (lcd->getTouch(&x, &y)) {
@@ -28,11 +28,10 @@ static void lv_tick_task(void *arg) {
 namespace ui {
 esp_err_t init() {
   lv_init();
-  lv_theme_default_init(NULL, lv_palette_main(LV_PALETTE_BLUE),
-                        lv_palette_main(LV_PALETTE_RED), LV_THEME_DEFAULT_DARK,
-                        &lv_font_montserrat_14);
   display_init();
-  static lv_disp_draw_buf_t draw_buf;
+  lv_display_t *disp = lv_display_create(LCD_WIDTH, LCD_HEIGHT);
+  lv_display_set_flush_cb(disp, display_lvgl_flush);
+  lv_display_set_default(disp);
   static lv_color_t *buf1 = (lv_color_t *)heap_caps_malloc(
       LCD_WIDTH * 40 * sizeof(lv_color_t), MALLOC_CAP_DMA);
   if (!buf1) {
@@ -47,19 +46,10 @@ esp_err_t init() {
     buf1 = NULL;
     return ESP_ERR_NO_MEM;
   }
-  lv_disp_draw_buf_init(&draw_buf, buf1, buf2, LCD_WIDTH * 40);
-  static lv_disp_drv_t disp_drv;
-  lv_disp_drv_init(&disp_drv);
-  disp_drv.flush_cb = display_lvgl_flush;
-  disp_drv.draw_buf = &draw_buf;
-  disp_drv.hor_res = LCD_WIDTH;
-  disp_drv.ver_res = LCD_HEIGHT;
-  lv_disp_drv_register(&disp_drv);
-  static lv_indev_drv_t indev_drv;
-  lv_indev_drv_init(&indev_drv);
-  indev_drv.type = LV_INDEV_TYPE_POINTER;
-  indev_drv.read_cb = lvgl_touch_read;
-  lv_indev_drv_register(&indev_drv);
+  lv_display_set_buffers(disp, buf1, buf2, LCD_WIDTH * 40 * sizeof(lv_color_t), LV_DISPLAY_RENDER_MODE_PARTIAL);
+  static lv_indev_t *indev = lv_indev_create();
+  lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
+  lv_indev_set_read_cb(indev, lvgl_touch_read);
   xTaskCreatePinnedToCore(lv_tick_task, "lv_tick", 2048, NULL, 1, NULL, 1);
   static lv_style_t basic_style;
   lv_style_init(&basic_style);

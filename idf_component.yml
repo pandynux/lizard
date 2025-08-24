@@ -1,0 +1,12 @@
+# Fichier: idf_component.yml
+# Placer ce fichier à la racine de votre projet.
+
+dependencies:
+  # LVGL est la bibliothèque graphique principale.
+  # Récupérée depuis le registre de composants officiel d'ESP-IDF.
+  # La version est fixée à ~8.3 pour assurer la compatibilité.
+  lvgl/lvgl: "~8.3.0"
+
+  # LovyanGFX est le pilote d'affichage.
+  # Comme il n'est pas dans le registre officiel, il est récupéré directement depuis GitHub.
+  lovyan03/lovyan_gfx: "*"

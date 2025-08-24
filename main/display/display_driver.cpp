@@ -44,12 +44,12 @@ public:
             _panel_instance.config(cfg);
         }
         {
-             auto blk = _panel_instance.config_light();
+             auto blk = _panel_instance.config_t();
             blk.pin_bl = LCD_BL;
             blk.invert = false;
             blk.freq = 44100;
             blk.pwm_channel = 7;
-            _panel_instance.config_light(blk);
+            _panel_instance.config_t(blk);
         }
         {
             auto cfg = _touch_instance.config();
@@ -97,4 +97,3 @@ void display_lvgl_flush(lv_display_t *disp, const lv_area_t *area, uint8_t *px_m
     lcd.endWrite();
     lv_display_flush_ready(disp);
 }
-
